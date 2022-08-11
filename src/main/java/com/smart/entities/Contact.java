@@ -1,6 +1,6 @@
 package com.smart.entities;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,9 +18,9 @@ public class Contact {
 	private String nickName;
 	private String work;
 	private String email;
-	private String phone;
-	private String image;
-	private String description;
+	private String phone;                                                                                                                   
+	private String image;       
+	private String description;                                
 	
 	@ManyToOne
 	private User user;
@@ -86,6 +86,12 @@ public class Contact {
 //				+ email + ", phone=" + phone + ", image=" + image + ", description=" + description + ", user=" + user
 //				+ "]";
 //	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return this.cId == ((Contact)obj).getcId();
+	}
+	
 	
 	
 	
