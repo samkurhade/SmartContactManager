@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.objenesis.instantiator.basic.NewInstanceInstantiator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,9 @@ import com.smart.helper.Message;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -180,11 +184,11 @@ public class UserController {
 		if (user.getId() == contact.getUser().getId()) {
 //			contact.setUser(null);
 //			this.contactRepository.delete(contact);
-			
+
 			user.getContacts().remove(contact);
-			
+
 			this.userRepository.save(user);
-			
+
 			System.out.println("Deleted");
 			httpSession.setAttribute("message", new Message("Contact Deleted Successfully", "success"));
 		}
@@ -243,6 +247,47 @@ public class UserController {
 
 		System.out.println(contact);
 		return "redirect:/user/" + contact.getcId() + "/contact";
+	}
+
+	// your profile handler
+	@GetMapping("/profile")
+	public String yourHandler(Model model) {
+		model.addAttribute("title", "Profile Page");
+
+		return "normal/profile";
+	}
+
+	// open setting handler
+	@GetMapping("/settings")
+	public String openSetings() {
+		return "/normal/settings";
+	}
+
+	// change pwd handler
+	@PostMapping("/change-password")
+	public String changepassword(@RequestParam("oldpassword") String oldpassword,
+			@RequestParam("newpassword") String newpassword, Principal principal, HttpSession httpSession) {
+
+		System.out.println(oldpassword);
+		System.out.println(newpassword);
+
+		String userName = principal.getName();
+		User currentUser = this.userRepository.getUserByUserName(userName);
+		System.out.println(currentUser.getPassword());
+
+		if (this.bCryptPasswordEncoder.matches(oldpassword, currentUser.getPassword())) {
+			// change pwd
+			currentUser.setPassword(this.bCryptPasswordEncoder.encode(newpassword));
+			this.userRepository.save(currentUser);
+			
+			httpSession.setAttribute("message", new Message("Your password is successfully changed!", "success"));
+		} else {
+			// error
+			httpSession.setAttribute("message", new Message("Please enter correct old password!", "danger"));
+			return "redirect:/user/settings";
+		}
+
+		return "redirect:/user/index";
 	}
 
 }

@@ -20,6 +20,12 @@
 	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title th:text="${title}"></title>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+</script>
 </head>
 <body>
 	<!-- Navbar -->
@@ -55,14 +61,15 @@
 	<!-- sidebar -->
 	<div class="sidebar mt-2">
 		<span onclick="toggleSidebar()" class="crossBtn">&times;</span> <a
-			th:href="@{/user/index}" class="item"><i
-			class="fa-solid fa-house-chimney"></i> Home</a> <a
+			id="home-link" th:href="@{/user/index}" class="item"><i
+			class="fa-solid fa-house-chimney"></i> Home</a> <a id="contacts-link"
 			th:href="@{/user/show_contacts/0}" class="item"><i
-			class="fa-solid fa-id-card-alt"></i> View Contacts</a> <a
+			class="fa-solid fa-id-card-alt"></i> View Contacts</a> <a id="add-link"
 			th:href="@{/user/add-contact}" class="item"><i
-			class="fa-solid fa-pencil-alt"></i> Add Contacts</a> <a href="#"
-			class="item"><i class="fa-solid fa-user-circle"></i> Your Profile</a><a
-			href="#" class="item"><i class="fa-solid fa-cogs"></i> Settings</a> <a
+			class="fa-solid fa-pencil-alt"></i> Add Contacts</a> <a id="profile-link"
+			th:href="@{/user/profile}" class="item"><i
+			class="fa-solid fa-user-circle"></i> Your Profile</a><a href="#" th:href="@{/user/settings}"
+			class="item"><i class="fa-solid fa-cogs"></i> Settings</a> <a id="settings-link"
 			th:href="@{/logout}" class="item"><i
 			class="fa-solid fa-sign-out-alt"></i> Logout</a>
 

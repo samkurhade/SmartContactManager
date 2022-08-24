@@ -7,8 +7,28 @@
 </head>
 <body>
 	<section>
-		<h1>Welcome you are normal user</h1>
-		
+		<div class="container">
+			<div class="card">
+				<div class="card-body my-5">
+					<div class="container text-center">
+						<img src="" style="height: 200px; width: 200px;"
+							class="my_profile_picture" th:alt="profile-photo"
+							th:src="@{'/image/contact_logo.png'}">
+					</div>
+					<h1 class="text-center mt-3 text-secondary font-italic">Start
+						Adding your contacts on cloud....</h1>
+					<a th:href="@{/user/add-contact}"
+						class="btn btn-primary btn-block text-uppercase mt-3">Add new
+						contact</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(()=>{
+			$(".item").removeClass("active'");
+			$("#home-link").addClass("active");
+			});
+		</script>
 	</section>
 
 </body>
